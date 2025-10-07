@@ -1,8 +1,45 @@
-# Open edX Chatbot Component
+# Open edX Chatbot Plugin
 
-> A minimal chatbot component in pure JavaScript/React
+> A minimal chatbot plugin for Open edX MFEs using frontend-plugin-framework
 
-## 🚀 Quick Start
+## 🧩 Plugin Installation (Zero-Code)
+
+Install in any Open edX MFE **without modifying MFE code**:
+
+```bash
+# In your MFE directory (e.g., frontend-app-learning)
+npm install @edx/frontend-component-chatbot
+```
+
+Then add to your `env.config.jsx`:
+
+```javascript
+import { DIRECT_PLUGIN, PLUGIN_OPERATIONS } from '@openedx/frontend-plugin-framework';
+import { ChatbotPlugin } from '@edx/frontend-component-chatbot';
+
+const config = {
+  pluginSlots: {
+    'footer_slot': {
+      keepDefault: true,
+      plugins: [{
+        op: PLUGIN_OPERATIONS.Insert,
+        widget: {
+          id: 'openedx_chatbot',
+          type: DIRECT_PLUGIN,
+          priority: 50,
+          RenderWidget: ChatbotPlugin,
+        },
+      }],
+    },
+  },
+};
+
+export default config;
+```
+
+**📚 See [PLUGIN_INSTALLATION.md](./PLUGIN_INSTALLATION.md) for complete installation guide**
+
+## 🚀 Development Quick Start
 
 ```bash
 # Install dependencies
@@ -23,8 +60,14 @@ Just 3 files:
 
 ## 🔌 Usage
 
+### As a Plugin (Recommended)
+
+See [PLUGIN_INSTALLATION.md](./PLUGIN_INSTALLATION.md) for plugin installation in Open edX MFEs.
+
+### As a Standalone Component
+
 ```jsx
-import Chatbot from './Chatbot';
+import { Chatbot } from '@edx/frontend-component-chatbot';
 
 <Chatbot
   apiEndpoint="https://your-backend.com/api/chat"
@@ -59,12 +102,14 @@ Response:
 
 ## ✨ Features
 
+- 🧩 **Plugin-based installation** - Zero-code integration with Open edX MFEs
 - ✅ Pure JavaScript (no TypeScript)
-- ✅ Single component file
-- ✅ LocalStorage for message history
-- ✅ Responsive design
-- ✅ Clean, simple UI
-- ✅ ~150 lines of code
+- 🔌 Backend-agnostic - works with any chat API
+- 💾 LocalStorage for message history
+- 📱 Responsive design
+- 🎨 Clean, simple UI
+- 🔧 Auto-detects user ID and course ID from context
+- ~150 lines of code
 
 ## 🛠️ Backend Example (Python)
 

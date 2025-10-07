@@ -1,7 +1,7 @@
 {
   "name": "@edx/frontend-component-chatbot",
   "version": "1.0.0",
-  "description": "A minimal chatbot component for Open edX",
+  "description": "A minimal chatbot plugin for Open edX using frontend-plugin-framework",
   "main": "dist/chatbot.js",
   "module": "src/index.js",
   "scripts": {
@@ -12,15 +12,19 @@
   "keywords": [
     "openedx",
     "chatbot",
-    "react"
+    "react",
+    "plugin",
+    "frontend-plugin-framework"
   ],
   "author": "",
   "license": "AGPL-3.0",
   "peerDependencies": {
+    "@openedx/frontend-plugin-framework": "^1.0.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
+    "@openedx/frontend-plugin-framework": "^1.7.0",
     "@vitejs/plugin-react": "^4.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
