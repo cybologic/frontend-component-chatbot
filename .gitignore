@@ -1,0 +1,14 @@
+venv/
+*.pyc
+BACKEND.md
+node_modules/
+dist/
+.DS_Store
+.env
+.vscode/
+# pycache files
+__pycache__
+*.pyo
+*.pyd
+
+backend.py
