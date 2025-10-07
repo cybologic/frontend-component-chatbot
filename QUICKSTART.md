@@ -1,12 +1,12 @@
-# 🎉 Simple JavaScript Chatbot - Ready!
+# 🚀 Quick Start - GitHub Installation
 
-## What You Have Now
+## What This Is
 
-✅ **Pure JavaScript** chatbot (no TypeScript!)
-✅ **Single component** - just 150 lines in `src/Chatbot.jsx`
-✅ **Clean CSS** - simple, responsive styles
-✅ **Demo running** at http://localhost:3000
-✅ **Test backend** ready to run
+✅ **Open edX Plugin** - Install without modifying MFE code
+✅ **Pure JavaScript** - 150 lines of React code
+✅ **Backend-agnostic** - Works with any chat API
+✅ **Auto-detection** - Finds user ID and course ID automatically
+✅ **GitHub-hosted** - Install directly from GitHub
 
 ## 📁 Project Structure
 
@@ -25,46 +25,77 @@ frontend-component-chatbot/
 └── BACKEND.md             ← Backend examples
 ```
 
-## 🚀 How to Use
+## 🚀 Install in Your MFE
 
-### 1. Frontend (Already Running!)
+### Step 1: Install from GitHub
 
 ```bash
-npm run dev
-# Open http://localhost:3000
+cd /path/to/your-mfe  # e.g., frontend-app-learning
+
+# Install latest
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# Or install specific version (recommended for production)
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
 ```
 
-### 2. Test Backend (Run This Now!)
+### Step 2: Configure Plugin
+
+Create or update `env.config.jsx`:
+
+```javascript
+import { DIRECT_PLUGIN, PLUGIN_OPERATIONS } from '@openedx/frontend-plugin-framework';
+import { ChatbotPlugin } from '@edx/frontend-component-chatbot';
+
+const config = {
+  pluginSlots: {
+    'footer_slot': {
+      keepDefault: true,
+      plugins: [{
+        op: PLUGIN_OPERATIONS.Insert,
+        widget: {
+          id: 'openedx_chatbot',
+          type: DIRECT_PLUGIN,
+          priority: 50,
+          RenderWidget: ChatbotPlugin,
+        },
+      }],
+    },
+  },
+};
+
+export default config;
+```
+
+### Step 3: Set API Endpoint
 
 ```bash
-# Install Flask
-pip install flask flask-cors
+# In your MFE's .env file
+CHATBOT_API_ENDPOINT=https://your-api.com/api/chat
+```
 
-# Run backend
+### Step 4: Run Your MFE
+
+```bash
+npm start
+```
+
+Done! The chatbot appears in your MFE's footer.
+
+## 🧪 Test Locally First
+
+Before installing in an MFE, test it locally:
+
+```bash
+# In this repo
+npm install
+npm run dev
+
+# In another terminal, run test backend
 python backend.py
 ```
 
-This gives you a working demo! The backend echoes your messages.
-
-### 3. Try It Out!
-
-1. Click the chat icon (bottom-right)
-2. Type "hello" or "help"
-3. See the response!
-
-## 📦 Component Usage
-
-```jsx
-import Chatbot from './Chatbot';
-
-<Chatbot
-  apiEndpoint="http://localhost:8000/api/chat"
-  userId="user123"
-  courseId="course-v1:edX+DemoX+Demo"
-/>
-```
-
-That's it! Just 3 props.
+Open http://localhost:3000 and try the chatbot!
 
 ## 🔧 Backend API
 
@@ -140,39 +171,55 @@ def chat():
 
 Super lightweight! 🎈
 
-## 🚢 Deploy
+## � Installation Options
 
-### Option 1: Integrate in Open edX
-
+### From GitHub (Recommended)
 ```bash
-# Copy component to your MFE
-cp src/Chatbot.jsx ../frontend-app-learning/src/components/
-cp src/styles/chatbot.css ../frontend-app-learning/src/components/
-
-# Use it
-import Chatbot from './components/Chatbot';
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
 ```
 
-### Option 2: Build as Library
-
+### From Local Path (Development)
 ```bash
-npm run build
-# Creates dist/ folder
+npm install /path/to/frontend-component-chatbot
 ```
+
+### Using npm link (Active Development)
+```bash
+# In chatbot directory
+npm link
+
+# In your MFE
+npm link @edx/frontend-component-chatbot
+```
+
+**See [GITHUB_INSTALLATION.md](./GITHUB_INSTALLATION.md) for all options**
 
 ## 🎓 Next Steps
 
-1. ✅ Frontend is ready
-2. 🔨 Build your backend with AI/RAG
-3. 📚 Index your course content
-4. 🚀 Deploy!
+### 1. Install in Your MFE
+- [ ] Install from GitHub
+- [ ] Configure `env.config.jsx`
+- [ ] Set API endpoint
+- [ ] Run and test
+
+### 2. Build Backend
+- [ ] Create chat API endpoint
+- [ ] Implement AI/RAG logic
+- [ ] Configure CORS
+- [ ] Deploy backend
+
+### 3. Deploy
+- [ ] Test in staging
+- [ ] Configure production API
+- [ ] Deploy to production
+- [ ] Monitor and iterate
 
 ## 💡 Tips
 
-- The demo backend (`backend.py`) is just for testing
-- Build your real backend with OpenAI, Claude, or any LLM
-- Use vector databases for RAG (Pinecone, Weaviate, etc.)
-- Deploy backend anywhere (AWS, GCP, Heroku, etc.)
+- **Use tags for production**: `#v1.0.0` instead of `#main`
+- **Test locally first**: Use `npm link` for development
+- **Backend is separate**: Deploy backend anywhere
+- **Auto-detection works**: User/course ID extracted automatically
 
 ## 🆘 Quick Fixes
 
@@ -190,14 +237,36 @@ npm run build
 - Check browser console
 - Try the test backend first
 
-## 📚 Resources
+## 📚 Documentation
 
-- `README.md` - Full documentation
-- `BACKEND.md` - Backend examples (Python, Node.js)
-- `backend.py` - Working test backend
+| Document | Purpose |
+|----------|---------|
+| [README.md](./README.md) | Overview and features |
+| [GITHUB_INSTALLATION.md](./GITHUB_INSTALLATION.md) | **All installation methods** |
+| [PLUGIN_EXAMPLES.md](./PLUGIN_EXAMPLES.md) | 10+ configuration examples |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical details |
+| [BACKEND.md](./BACKEND.md) | Backend API specification |
+
+## 🔍 Verification
+
+After installation, verify it works:
+
+1. **Check installation**:
+   ```bash
+   npm list @edx/frontend-component-chatbot
+   ```
+
+2. **Check in browser**:
+   - Open your MFE
+   - Look for chatbot button (bottom-right)
+   - Click and test
+
+3. **Check console**:
+   - No errors should appear
+   - Plugin should be registered
 
 ---
 
 **You're all set!** 🎊
 
-The chatbot is pure JavaScript, super simple, and ready to connect to your backend!
+Install from GitHub, configure once, and it works in any Open edX MFE!

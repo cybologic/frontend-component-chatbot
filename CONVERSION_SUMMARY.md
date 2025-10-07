@@ -27,7 +27,11 @@ Your chatbot has been successfully converted to use the Open edX `frontend-plugi
 
 1. **In your target MFE** (e.g., `frontend-app-learning`):
 ```bash
-npm install @edx/frontend-component-chatbot
+# Install directly from GitHub
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# Or install a specific tag/release
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
 ```
 
 2. **Create/update `env.config.jsx`**:
@@ -143,24 +147,31 @@ Visit http://localhost:3000 - chatbot works as before!
 4. Run MFE: `npm start`
 5. Verify chatbot appears
 
-## 📦 Publishing
+## 📦 Installation from GitHub
 
-When ready to publish to npm:
+Since this is hosted on GitHub, users can install it with:
 
 ```bash
-# Build the package
-npm run build
+# Latest from main branch
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
 
-# Login to npm
-npm login
+# Specific tag/release (recommended for production)
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
 
-# Publish
-npm publish --access public
+# For local development
+npm install /path/to/frontend-component-chatbot
 ```
 
-Others can then install with:
+See [GITHUB_INSTALLATION.md](./GITHUB_INSTALLATION.md) for detailed installation instructions.
+
+## 📦 Publishing to npm (Optional)
+
+If you want to publish to npm later:
+
 ```bash
-npm install @edx/frontend-component-chatbot
+npm run build
+npm login
+npm publish --access public
 ```
 
 ## 🎓 Next Steps

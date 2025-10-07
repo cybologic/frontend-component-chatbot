@@ -8,8 +8,14 @@ Install in any Open edX MFE **without modifying MFE code**:
 
 ```bash
 # In your MFE directory (e.g., frontend-app-learning)
-npm install @edx/frontend-component-chatbot
+# Install directly from GitHub
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# Or install from a specific tag (recommended for production)
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
 ```
+
+**📘 See [GITHUB_INSTALLATION.md](./GITHUB_INSTALLATION.md) for all installation options**
 
 Then add to your `env.config.jsx`:
 

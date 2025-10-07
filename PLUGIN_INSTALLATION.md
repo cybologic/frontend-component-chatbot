@@ -12,7 +12,15 @@ This chatbot component is now structured as an Open edX plugin using the `fronte
 
 ```bash
 cd /path/to/frontend-app-learning
-npm install @edx/frontend-component-chatbot
+
+# Install directly from GitHub
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# Or install from a specific branch
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#main
+
+# Or install from a specific tag/release
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
 ```
 
 2. **Configure the plugin** in your MFE's `env.config.jsx`:
@@ -62,8 +70,9 @@ Or set the global variable in your MFE's HTML:
 
 ### Method 2: Local Development / Testing
 
-1. **Link the package locally**:
+For local development, you can link the package or install from a local path:
 
+#### Option A: Using npm link
 ```bash
 # In this directory (frontend-component-chatbot)
 npm link
@@ -71,6 +80,18 @@ npm link
 # In your MFE directory
 cd /path/to/frontend-app-learning
 npm link @edx/frontend-component-chatbot
+```
+
+#### Option B: Install from local path
+```bash
+cd /path/to/frontend-app-learning
+npm install /path/to/frontend-component-chatbot
+```
+
+#### Option C: Install from your fork
+```bash
+# If you've forked the repo
+npm install git+https://github.com/YOUR_USERNAME/frontend-component-chatbot.git
 ```
 
 2. **Follow the same configuration steps** as Method 1.
@@ -251,9 +272,49 @@ pluginSlots: {
 }
 ```
 
-## Publishing
+## Installation Options Summary
 
-To publish your chatbot plugin to npm:
+### From GitHub (Current Setup)
+```bash
+# Latest version from main branch
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# Specific branch
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#branch-name
+
+# Specific tag/release (recommended for production)
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
+
+# From your fork
+npm install git+https://github.com/YOUR_USERNAME/frontend-component-chatbot.git
+```
+
+**In your `package.json`, this will appear as:**
+```json
+{
+  "dependencies": {
+    "@edx/frontend-component-chatbot": "git+https://github.com/cybologic/frontend-component-chatbot.git"
+  }
+}
+```
+
+### From Local Path (Development)
+```bash
+npm install /absolute/path/to/frontend-component-chatbot
+```
+
+### Using npm link (Development)
+```bash
+# In chatbot directory
+npm link
+
+# In MFE directory
+npm link @edx/frontend-component-chatbot
+```
+
+## Publishing to npm (Optional)
+
+If you want to publish to npm registry later:
 
 ```bash
 npm login

@@ -4,6 +4,10 @@
   "description": "A minimal chatbot plugin for Open edX using frontend-plugin-framework",
   "main": "dist/chatbot.js",
   "module": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cybologic/frontend-component-chatbot.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

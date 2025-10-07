@@ -2,6 +2,24 @@
 
 This document provides ready-to-use configuration examples for different deployment scenarios.
 
+## Installing from GitHub
+
+Since this package is hosted on GitHub, install it directly:
+
+```bash
+# Latest from main branch
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# Specific branch
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#dev
+
+# Specific tag/release
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git#v1.0.0
+
+# From your fork
+npm install git+https://github.com/YOUR_USERNAME/frontend-component-chatbot.git
+```
+
 ## Example 1: Basic Footer Installation
 
 Install chatbot in the footer of all pages:
@@ -459,7 +477,12 @@ Here's a complete example showing how to integrate into `frontend-app-learning`:
 ### 1. Install Package
 ```bash
 cd /path/to/frontend-app-learning
-npm install @edx/frontend-component-chatbot
+
+# Install from GitHub
+npm install git+https://github.com/cybologic/frontend-component-chatbot.git
+
+# This adds to package.json:
+# "@edx/frontend-component-chatbot": "git+https://github.com/cybologic/frontend-component-chatbot.git"
 ```
 
 ### 2. Create env.config.jsx
