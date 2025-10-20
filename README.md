@@ -86,25 +86,43 @@ import { Chatbot } from '@edx/frontend-component-chatbot';
 
 Your backend needs ONE endpoint:
 
-**POST /api/chat**
+**POST /api/v1/mentor/query**
 
 Request:
 ```json
 {
-  "message": "What is this course about?",
-  "userId": "user123",
-  "courseId": "course-v1:edX+DemoX+Demo",
-  "sessionId": "session-123"
+  "learnerId": "john_123",
+  "courseId": "course_analytics+101",
+  "message": "I don't get how bin width affects the histogram.",
+  "conversationId": "conv_789"
 }
 ```
 
 Response:
 ```json
 {
-  "message": "This course covers machine learning...",
-  "sessionId": "session-123"
+  "courseId": "course_analytics+101",
+  "learnerId": "john_123",
+  "question": "I don't get how bin width affects the histogram.",
+  "mentorResponse": {
+    "content": "Think of bin width as the size of buckets...",
+    "citations": [
+      {
+        "label": "Course Notes §2.3: Histograms",
+        "href": "https://openedx.example/materials/mat_204"
+      }
+    ],
+    "followUpPrompts": [
+      "Show the same dataset with bin width = 1",
+      "How to pick an optimal bin rule?"
+    ],
+    "conversationId": "conv_789",
+    "requestId": "req_b1f6c2"
+  }
 }
 ```
+
+**See [BACKEND.md](./BACKEND.md) for complete API specification**
 
 ## ✨ Features
 
@@ -115,19 +133,23 @@ Response:
 - 📱 Responsive design
 - 🎨 Clean, simple UI
 - 🔧 Auto-detects user ID and course ID from context
-- ~150 lines of code
+- 📚 **Citations support** - Shows references with clickable links
+- 💡 **Follow-up prompts** - Suggests related questions
+- 💬 **Conversation threading** - Maintains conversation context
+- ~200 lines of code
 
 ## 🛠️ Backend Example (Python)
 
 ```python
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import uuid
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
+@app.route('/api/v1/mentor/query', methods=['POST'])
+def mentor_query():
     data = request.json
     message = data['message']
     
@@ -135,8 +157,18 @@ def chat():
     response = your_ai_function(message)
     
     return jsonify({
-        'message': response,
-        'sessionId': data.get('sessionId', 'new-session')
+        'courseId': data['courseId'],
+        'learnerId': data['learnerId'],
+        'question': message,
+        'mentorResponse': {
+            'content': response,
+            'citations': [
+                {'label': 'Course Material', 'href': 'https://...'}
+            ],
+            'followUpPrompts': ['Related question 1', 'Related question 2'],
+            'conversationId': data.get('conversationId', f'conv_{uuid.uuid4().hex[:8]}'),
+            'requestId': f'req_{uuid.uuid4().hex[:8]}'
+        }
     })
 
 if __name__ == '__main__':

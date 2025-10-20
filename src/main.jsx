@@ -4,7 +4,8 @@ import Chatbot from './Chatbot';
 
 function App() {
   // Get these from environment or your Open edX context
-  const apiEndpoint = 'http://localhost:8000/api/demo-collected';
+  // const apiEndpoint = 'http://localhost:8000/api/demo-collected';
+  const apiEndpoint = 'http://localhost:8000/api/v1/mentor/query';
   const userId = 'demo-user-123';
   const courseId = 'course-v1:edX+DemoX+Demo_Course';
 
@@ -55,7 +56,7 @@ function App() {
             <strong>Current API:</strong> <code style={{ background: '#1a202c', color: '#68d391', padding: '2px 8px', borderRadius: '4px' }}>{apiEndpoint}</code>
           </p>
           <p style={{ lineHeight: '1.6', color: '#92400e', marginTop: '12px' }}>
-            Make sure your backend is running and implements the <code style={{ background: '#1a202c', color: '#68d391', padding: '2px 8px', borderRadius: '4px' }}>/api/chat</code> endpoint.
+            Make sure your backend is running and implements the <code style={{ background: '#1a202c', color: '#68d391', padding: '2px 8px', borderRadius: '4px' }}>/api/v1/mentor/query</code> endpoint.
           </p>
         </div>
 
@@ -77,10 +78,10 @@ function App() {
             fontSize: '13px'
           }}>
 {`{
-  "message": "What is this course about?",
-  "userId": "${userId}",
+  "learnerId": "${userId}",
   "courseId": "${courseId}",
-  "sessionId": "session-123"
+  "message": "I don't understand histograms",
+  "conversationId": "conv_789"
 }`}
           </pre>
           
@@ -94,8 +95,18 @@ function App() {
             fontSize: '13px'
           }}>
 {`{
-  "message": "This course covers...",
-  "sessionId": "session-123"
+  "mentorResponse": {
+    "content": "A histogram shows...",
+    "citations": [{
+      "label": "Course Notes §2.3",
+      "href": "https://..."
+    }],
+    "followUpPrompts": [
+      "Show me an example",
+      "Explain bin width"
+    ],
+    "conversationId": "conv_789"
+  }
 }`}
           </pre>
         </div>

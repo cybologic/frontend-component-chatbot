@@ -22,7 +22,7 @@ export default function Chatbot({ apiEndpoint, userId, courseId }) {
       setMessages([{
         id: 'welcome',
         role: 'assistant',
-        content: 'Hi! I\'m your course assistant. How can I help you today?',
+        content: 'Hi! I\'m Mentor, your course assistant. How can I help you today?',
         time: new Date().toLocaleTimeString()
       }]);
     }
@@ -51,6 +51,7 @@ export default function Chatbot({ apiEndpoint, userId, courseId }) {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
 
@@ -61,10 +62,10 @@ export default function Chatbot({ apiEndpoint, userId, courseId }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: input,
-          userId: userId,
+          learnerId: userId,
           courseId: courseId,
-          sessionId: localStorage.getItem('chatbot-session-id') || 'new'
+          message: currentInput,
+          conversationId: localStorage.getItem('chatbot-conversation-id') || undefined
         })
       });
 
@@ -77,15 +78,17 @@ export default function Chatbot({ apiEndpoint, userId, courseId }) {
       const assistantMessage = {
         id: Date.now() + 1,
         role: 'assistant',
-        content: data.message,
-        time: new Date().toLocaleTimeString()
+        content: data.mentorResponse.content,
+        time: new Date().toLocaleTimeString(),
+        citations: data.mentorResponse.citations || [],
+        followUpPrompts: data.mentorResponse.followUpPrompts || []
       };
 
       setMessages(prev => [...prev, assistantMessage]);
 
-      // Save session ID
-      if (data.sessionId) {
-        localStorage.setItem('chatbot-session-id', data.sessionId);
+      // Save conversation ID
+      if (data.mentorResponse.conversationId) {
+        localStorage.setItem('chatbot-conversation-id', data.mentorResponse.conversationId);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -131,7 +134,7 @@ export default function Chatbot({ apiEndpoint, userId, courseId }) {
       <div className={`chat-window ${isOpen ? '' : 'hidden'}`}>
         {/* Header */}
         <div className="chat-header">
-          <h3>Course Assistant</h3>
+          <h3>Mentor</h3>
           <button 
             className="close-button" 
             onClick={() => setIsOpen(false)}
@@ -147,7 +150,44 @@ export default function Chatbot({ apiEndpoint, userId, courseId }) {
         <div className="chat-messages">
           {messages.map(msg => (
             <div key={msg.id} className={`message ${msg.role}`}>
-              <div>{msg.content}</div>
+              <div className="message-content">{msg.content}</div>
+              
+              {/* Citations */}
+              {msg.citations && msg.citations.length > 0 && (
+                <div className="message-citations">
+                  <div className="citations-label">📚 References:</div>
+                  {msg.citations.map((citation, idx) => (
+                    <a 
+                      key={idx} 
+                      href={citation.href} 
+                      className="citation-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {citation.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+              
+              {/* Follow-up Prompts */}
+              {msg.followUpPrompts && msg.followUpPrompts.length > 0 && (
+                <div className="message-prompts">
+                  <div className="prompts-label">💡 Related questions:</div>
+                  {msg.followUpPrompts.map((prompt, idx) => (
+                    <button
+                      key={idx}
+                      className="prompt-button"
+                      onClick={() => {
+                        setInput(prompt);
+                      }}
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              )}
+              
               <div className="message-time">{msg.time}</div>
             </div>
           ))}
