@@ -14,7 +14,7 @@ const ChatbotPlugin = ({ userId, courseId, apiEndpoint, ...pluginProps }) => {
     apiEndpoint: apiEndpoint || 
                  process.env.CHATBOT_API_ENDPOINT || 
                  window.CHATBOT_API_ENDPOINT ||
-                 'http://localhost:8000/api/chat',
+                 'http://134.209.254.152:5500/api/v1/mentor/query',
     userId: userId || 
             window.USER_ID || 
             localStorage.getItem('userId') || 
